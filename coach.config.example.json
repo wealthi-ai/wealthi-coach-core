@@ -1,0 +1,8 @@
+{
+  "institutionName": "Wealthi",
+  "domainDescription": "teenagers learning about money",
+  "subjectMatter": "financial habits",
+  "mcpServerUrl": "https://wealthi-coach-mcp-server-production.up.railway.app",
+  "supabaseProjectRef": "yrrgbkjznsxxfshwglmz",
+  "edgeFunctionName": "coach-respond"
+}
