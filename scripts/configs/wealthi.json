@@ -1,0 +1,15 @@
+{
+  "institutionId": "wealthi",
+  "institutionName": "Wealthi",
+  "domainDescription": "teenagers learning about money",
+  "subjectMatter": "financial habits",
+  "supabaseProjectRef": "yrrgbkjznsxxfshwglmz",
+  "railwayProjectId": "",
+  "mcpServerUrl": "https://wealthi-coach-mcp-server-production.up.railway.app",
+  "secrets": {
+    "ANTHROPIC_API_KEY": "",
+    "COACH_MCP_SHARED_SECRET": "",
+    "CURRICULUM_INGEST_KEY": "",
+    "WEALTHI_WEBHOOK_SECRET": ""
+  }
+}
