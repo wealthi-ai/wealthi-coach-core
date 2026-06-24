@@ -168,30 +168,19 @@ async function getProductionEnvironmentId(projectId: string): Promise<string> {
   return prod.node.id;
 }
 
-async function deployFromRepo(
-  projectId: string,
-  serviceId: string,
-  environmentId: string,
-  repo: string
-): Promise<string> {
-  // Connect the service to a GitHub repo and trigger a deploy
-  const data = await gql<{ serviceConnect: { id: string } }>(
+async function connectRepoToService(serviceId: string, repo: string): Promise<void> {
+  // repo is the "owner/name" path, e.g. "wealthi-ai/wealthi-coach-mcp-server"
+  // Railway's serviceConnect is idempotent — reconnecting the same repo is a no-op.
+  await gql<{ serviceConnect: { id: string } }>(
     `
-    mutation ConnectRepo($serviceId: String!, $projectId: String!, $environmentId: String!, $repo: String!) {
-      serviceConnect(
-        id: $serviceId
-        input: {
-          projectId: $projectId
-          source: { repo: $repo }
-        }
-      ) {
+    mutation ServiceConnect($id: String!, $input: ServiceConnectInput!) {
+      serviceConnect(id: $id, input: $input) {
         id
       }
     }
   `,
-    { serviceId, projectId, environmentId, repo }
+    { id: serviceId, input: { repo } }
   );
-  return data.serviceConnect.id;
 }
 
 async function getServiceDomain(
@@ -300,6 +289,7 @@ async function waitForDeployment(
 export async function deployMcpServer(params: {
   institutionId: string;
   institutionName: string;
+  repoUrl?: string;
   existingProjectId?: string;
   existingMcpServerUrl?: string;
   secrets: {
@@ -339,7 +329,16 @@ export async function deployMcpServer(params: {
   console.log(`  Resolving service: ${serviceName}`);
   const serviceId = await getOrCreateService(projectId, serviceName);
 
-  // Step 4: Set environment variables
+  // Step 4: Connect GitHub repo source (idempotent)
+  if (params.repoUrl) {
+    const repo = params.repoUrl.replace("https://github.com/", "");
+    console.log(`  Connecting GitHub repo: ${repo}`);
+    await connectRepoToService(serviceId, repo);
+  } else {
+    console.log(`  ⚠️  No repoUrl in config — skipping GitHub repo connection. Connect manually via Railway dashboard.`);
+  }
+
+  // Step 5: Set environment variables
   console.log(`  Setting environment variables...`);
   await setServiceVariables(projectId, serviceId, environmentId, {
     INSTITUTION_NAME: params.institutionName,
@@ -348,10 +347,10 @@ export async function deployMcpServer(params: {
     TRANSPORT: "http",
   });
 
-  // Step 5: Wait for deployment to be live
+  // Step 6: Wait for deployment to be live
   await waitForDeployment(projectId, serviceId, environmentId);
 
-  // Step 6: Get the deployment URL
+  // Step 7: Get the deployment URL
   console.log(`  Fetching service domain...`);
   const deploymentUrl = await getServiceDomain(projectId, serviceId, environmentId);
 

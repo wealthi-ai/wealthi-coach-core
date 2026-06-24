@@ -27,6 +27,7 @@ interface InstitutionConfig {
   supabaseProjectRef: string;
   railwayProjectId: string;
   mcpServerUrl: string;
+  repoUrl?: string;
   secrets: {
     ANTHROPIC_API_KEY: string;
     COACH_MCP_SHARED_SECRET: string;
@@ -173,6 +174,7 @@ async function main(): Promise<void> {
   const railwayResult = await deployMcpServer({
     institutionId: config.institutionId,
     institutionName: config.institutionName,
+    repoUrl: config.repoUrl || undefined,
     existingProjectId: config.railwayProjectId || undefined,
     existingMcpServerUrl: config.mcpServerUrl || undefined,
     secrets: {

@@ -4,6 +4,7 @@
   "domainDescription": "describe your learner and domain here",
   "subjectMatter": "describe the subject matter here",
   "supabaseProjectRef": "your-supabase-project-ref",
+  "repoUrl": "https://github.com/your-org/wealthi-coach-mcp-server",
   "railwayProjectId": "",
   "mcpServerUrl": "",
   "secrets": {

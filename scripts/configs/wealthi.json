@@ -4,6 +4,7 @@
   "domainDescription": "teenagers learning about money",
   "subjectMatter": "financial habits",
   "supabaseProjectRef": "yrrgbkjznsxxfshwglmz",
+  "repoUrl": "https://github.com/wealthi-ai/wealthi-coach-mcp-server",
   "railwayProjectId": "",
   "mcpServerUrl": "https://wealthi-coach-mcp-server-production.up.railway.app",
   "secrets": {
