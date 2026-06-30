@@ -1,0 +1,16 @@
+{
+  "institutionId": "your-institution-id",
+  "institutionName": "Your Institution Name",
+  "domainDescription": "describe your learner and domain here",
+  "subjectMatter": "describe the subject matter here",
+  "supabaseProjectRef": "your-supabase-project-ref",
+  "repoUrl": "https://github.com/your-org/wealthi-coach-mcp-server",
+  "railwayProjectId": "",
+  "mcpServerUrl": "",
+  "secrets": {
+    "ANTHROPIC_API_KEY": "",
+    "COACH_MCP_SHARED_SECRET": "",
+    "CURRICULUM_INGEST_KEY": "",
+    "WEALTHI_WEBHOOK_SECRET": ""
+  }
+}
